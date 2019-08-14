@@ -1,0 +1,65 @@
+<?php
+ob_start();
+header ('Content-Type:application/json');
+include "../lib/database.php";
+$city= array();
+$occurrency= array();
+//$qu=" select city, occurence from throttle GROUP BY city ORDER BY COUNT(city) desc ";
+$qu="select city,occurrence from frequency GROUP BY city order by occurrence desc";
+	$result=mysqli_query($obj->con,$qu);
+	$no_records=mysqli_num_rows($result);
+	while($arr=mysqli_fetch_assoc($result))
+	{
+		//echo $arr['city'].$arr['COUNT(city)']."<br>" ;
+	    //$_SESSION['city']=$arr['city'];
+		//$_SESSION['count']=$arr['COUNT(city)'];
+		print json_encode($arr);
+		
+		//$sq= "INSERT INTO `frequency` (`city`,`occurrence`) VALUES ('".$arr['city']."',".$arr['COUNT(city)'].");";	
+		//mysqli_query($obj->con,$sq);
+	}
+?>	
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+#chart-container{
+width:700px;
+height:auto;	
+}
+</style>
+</head>
+
+<body>
+<div id="chart-container">
+<canvas id="myChart"></canvas>
+
+</div>
+<script>
+
+var abc=[0, 10, 5, 2, 20, 30, 45];
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: abc,
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+</script>
+</body>
+</html>
